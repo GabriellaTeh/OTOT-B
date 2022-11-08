@@ -21,7 +21,8 @@ function startServer(app) {
     const db = mongoose.connection;
     db.on ('error', (error) => console.error(error));
     db.once('open', () => console.log('Connected to Database'));
-    app.listen(8080, () => console.log('Server started'));
+    const PORT = process.env.PORT || 8080
+    app.listen(PORT, () => console.log('Server started'));
 }
 
 module.exports = {
