@@ -1,21 +1,30 @@
-require('dotenv').config();
+function createServer() {
+    require('dotenv').config();
 
-const bodyParser = require('body-parser');
-const express = require('express');
-const app = express();
-const mongoose = require('mongoose');
-const { use } = require('./routes/contacts');
+    const bodyParser = require('body-parser');
+    const express = require('express');
+    const app = express();
+    //const {use} = require('./routes/contacts');
 
-mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true});
-const db = mongoose.connection;
-db.on ('error', (error) => console.error(error));
-db.once('open', () => console.log('Connected to Database'));
+    app.use(express.urlencoded({ extended: true}))
+    app.use(express.json());
 
-app.use(express.urlencoded({ extended: true}))
-app.use(express.json());
+    const contactsRouter = require('./routes/contacts');
 
-const contactsRouter = require('./routes/contacts');
+    app.use('/api/contacts', contactsRouter);
+    return app
+}
 
-app.use('/api/contacts', contactsRouter);
+function startServer(app) {
+    const mongoose = require('mongoose');
+    mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true});
+    const db = mongoose.connection;
+    db.on ('error', (error) => console.error(error));
+    db.once('open', () => console.log('Connected to Database'));
+    app.listen(8080, () => console.log('Server started'));
+}
 
-app.listen(8080, () => console.log('Server started'));
+module.exports = {
+    createServer,
+    startServer
+}
