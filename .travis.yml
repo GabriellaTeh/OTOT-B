@@ -1,11 +1,17 @@
 language: node_js
 node_js:
-- "17"
+- '17'
 services:
 - mongodb
 env:
 - DATABASE_URL="mongodb://localhost/contacts"
-script: 
+before_deploy:
+- rvm $(travis_internal_ruby) --fuzzy do ruby -S gem install faraday -v 1.8.0
+deploy:
+  provider: heroku
+  api_key:
+    secure: kU1sPczvs2yp8LHkD+awFdSeieMWjzHm4KtJNj5ue6SPSYFwtJw4cpWigLbejJ8KA+rKiEY5r+85jqkmesYV5MKaJHeEx/QkEOccGrP1Sfzg2SAN1Amsns5xocXhUUYMvmCxLc13pyjdvMAj8Z2UX9K7hP/NU/pmA66KvUpxJ5oZXMEnlL9m/rgNNbrRAcOSRrtWgFNkTB/rlESrv4M1+FNRXvBFuioiyj5wz9vMqXzIAvYJUR/J618/IFR7DepKErLvjkAklwsNVudkldAe8i3BkrZ4Sj0OTqRJXhHrE3wQCCz+WjZlSWXnhfOv6o0q0wTsrVGYDj7heMyN0Va0P9bv1vVdCFuZAcMalPL4a5QItnxdzBSBr5P+zo1rr3ZTn7ravX2SNNFNJp6GfDH+PtBkbArI7V8fuBVh8aL5Lo+VQqnz15Rgt+WtNod67TYZgmv3n7gWkDaz7sdsga1p5NPP+7mRAq1uoNb/Qa8gdzSjD+zHmM/lQUzJNzJ4mlW69mmvONI/qfFU5mT72Mta70+I0mI9NrQxCoBthtrqoI11P1Sm4Ldm63lmmMtiz+dfImL2d+GfxIuaYMStaAishOislHwdSje2qcXsfWVqe4SjC+3qhjd4NIQ5zelEc90NifYF4mo9vjplGP3+iDhUvF7PfHvexDVVTFQEL11+D9s=
+script:
 - echo '******Build starts******'
 - echo 'Installing Dependencies'
 - npm install
