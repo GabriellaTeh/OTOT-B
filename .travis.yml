@@ -1,6 +1,10 @@
 language: node_js
 node_js:
 - "17"
+services:
+- mongodb
+env:
+- DATABASE_URL="mongodb://localhost/contacts"
 script: 
 - echo '******Build starts******'
 - echo 'Installing Dependencies'
