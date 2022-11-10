@@ -3,22 +3,30 @@ import classes from './Request.module.css'
 import {useRef, useState} from 'react'
 import axios from 'axios'
 
-function PostRequest() {
+function PutRequest() {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
+    const [id, setId] = useState("")
     const nameInput = useRef()
     const emailInput = useRef()
+    const idInput = useRef()
 
-    function postHandler() {
-        axios.post("https://gabriellateh-ototb.herokuapp.com/api/contacts",
+    function putHandler() {
+        axios.put(`https://gabriellateh-ototb.herokuapp.com/api/contacts/${id}`,
         {name, email}).then((res) => {
             console.log(res.data)
         }).catch((err) => console.log(err))
     }
 
     return <Card>
-        <h1>POST</h1>
-        <form className={classes.form} onSubmit={(event) => { event.preventDefault(); postHandler()}}>
+        <h1>PUT</h1>
+        <form className={classes.form} onSubmit={(event) => { event.preventDefault(); putHandler()}}>
+            <div className={classes.control}>
+                <label>id</label>
+                <input type='text' ref={idInput} onChange={(event) => {
+                    setId(event.target.value)
+                }}></input>
+            </div>
             <div className={classes.control}>
                 <label>name</label>
                 <input type='text' ref={nameInput} onChange={(event) => {
@@ -38,4 +46,4 @@ function PostRequest() {
     </Card>
 }
 
-export default PostRequest
+export default PutRequest
