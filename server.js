@@ -3,11 +3,13 @@ function createServer() {
 
     const bodyParser = require('body-parser');
     const express = require('express');
+    const cors = require('cors')
     const app = express();
     //const {use} = require('./routes/contacts');
 
     app.use(express.urlencoded({ extended: true}))
     app.use(express.json());
+    app.use(cors())
 
     const contactsRouter = require('./routes/contacts');
 
